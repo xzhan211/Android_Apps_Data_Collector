@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:id="@+id/homeLayout"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" >
+
+        <Button
+            android:id="@+id/cpuFreq"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="cpuButton"
+            android:text="CPU FREQUENCY" />
+
+        <Button
+            android:id="@+id/cpuTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="cpuTimeButton"
+            android:text="CPU TIME" />
+
+
+        <Button
+            android:id="@+id/battery"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="batteryButton"
+            android:text="BATTERY" />
+
+        <Button
+            android:id="@+id/gpu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="gpuButton"
+            android:text="GPU" />
+
+        <Button
+            android:id="@+id/net"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="netButton"
+            android:text="NET" />
+
+        <Button
+            android:id="@+id/temperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="tempButton"
+            android:text="TEMPERATURE" />
+
+        <Button
+            android:id="@+id/memory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="memoryButton"
+            android:text="MEMORY" />
+
+        <Button
+            android:id="@+id/startUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startButton"
+            android:text="START"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/stopUpdate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="stopButton"
+            android:text="STOP" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/greenImage"
+                android:layout_width="102dp"
+                android:layout_height="111dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/green" />
+
+            <ImageView
+                android:id="@+id/redImage"
+                android:layout_width="102dp"
+                android:layout_height="109dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="32dp"
+                android:layout_weight="1"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/red" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

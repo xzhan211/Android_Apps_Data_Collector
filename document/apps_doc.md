@@ -80,7 +80,7 @@ os.writeBytes("chmod 777 /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_fre
 os.writeBytes("chmod 777 /sys/devices/system/cpu/cpufreq/policy4/cpuinfo_cur_freq" + "\n");
 os.writeBytes("chmod 777 /sys/devices/system/cpu/cpufreq/policy7/cpuinfo_cur_freq" + "\n");
 ```
-<font color=#204ff7>Note: Above configuration is from Pixel 4.</font>
+***Note: Above configuration is from Pixel 4.***
 
 ## Data Grab and Display
 From "CPU FREQUENCY" to "MEMORY", every button relates to **activity + function + layout**. Let's use "CPU FREQUENCY" as an example.
@@ -330,4 +330,5 @@ Follow the path to find "message.txt" **/data/data/com.example.batterymanagercas
 <center>
 <img width="300" height="300" src="res/cat.png"/>
 </center>
+
 **Enjoy!**

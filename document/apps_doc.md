@@ -49,17 +49,17 @@ In order to grab data from devices in smartphone directly, the first step is to 
 
 Then, in main page, we can call "RootCommand()" from SystemManager class to give this apps enough permission on several path/files.
 
-```java
-// MainActivity.java
 
+**MainActivity.java**
+```java
 testPath = getPackageCodePath();
 apkRoot = "chmod 777 " + testPath;
 SystemManager.RootCommand(apkRoot);
 ```
 
-```java
-// SystemManager.java
 
+**SystemManager.java**
+```java
 // get "SU" permission
 process = Runtime.getRuntime().exec("su");
 os = new DataOutputStream(process.getOutputStream());
@@ -79,16 +79,15 @@ os.writeBytes("chmod 777 /sys/class/power_supply/battery/capacity" + "\n");
 os.writeBytes("chmod 777 /sys/devices/system/cpu/cpufreq/policy0/cpuinfo_cur_freq" + "\n");
 os.writeBytes("chmod 777 /sys/devices/system/cpu/cpufreq/policy4/cpuinfo_cur_freq" + "\n");
 os.writeBytes("chmod 777 /sys/devices/system/cpu/cpufreq/policy7/cpuinfo_cur_freq" + "\n");
-
 ```
 <font color=#204ff7>Note: Above configuration is from Pixel 4.</font>
 
 ## Data Grab and Display
 From "CPU FREQUENCY" to "MEMORY", every button relates to **activity + function + layout**. Let's use "CPU FREQUENCY" as an example.
 
-```java
-// CPUFreqencyActivity.class
 
+**CPUFreqencyActivity.class**
+```java
 // using handler to update related UI.
     private Handler handler = new Handler() {
         @Override
@@ -132,63 +131,63 @@ From "CPU FREQUENCY" to "MEMORY", every button relates to **activity + function 
     }
 ``` 
 
-```java
-//CPUFreq.class
 
-	//device path
-	File dir = new File("/sys/devices/system/cpu/");
-	
-	File[] files = dir.listFiles(new FileFilter() {
-		@Override
-		public boolean accept(File file) {
-			//using regular expression to detect how many cpus in the current smartphone.
-			if (Pattern.matches("cpu[0-9]+", file.getName())) {
-				return true;
-			}
-			return false;
-		}
-	});
-	//get quantity of cpu
-	final int SIZE = files.length;
-	
-	...
-	
-	//base on the path and quantity of cpu, read frequency from each cpu.
-	for (int i = 0; i < SIZE; i++) {
-		br = new BufferedReader(new FileReader("/sys/devices/system/cpu/cpu" + i + "/cpufreq/cpuinfo_cur_freq"));
-		line = br.readLine();
-		if (line != null) {
-			long frequency = Long.parseLong(line);
-			if (frequency < 0) {
-				temp = "Unknow";
-			} else {
-				temp = frequency+"";
-			}
-		}
-		result.add("cpu" + i + " : " + temp);
-	}
-	
+**CPUFreq.class**
+```java
+    //device path
+    File dir = new File("/sys/devices/system/cpu/");
+    
+    File[] files = dir.listFiles(new FileFilter() {
+        @Override
+        public boolean accept(File file) {
+            //using regular expression to detect how many cpus in the current smartphone.
+            if (Pattern.matches("cpu[0-9]+", file.getName())) {
+                return true;
+            }
+            return false;
+        }
+    });
+    //get quantity of cpu
+    final int SIZE = files.length;
+    
+    ...
+    
+    //base on the path and quantity of cpu, read frequency from each cpu.
+    for (int i = 0; i < SIZE; i++) {
+        br = new BufferedReader(new FileReader("/sys/devices/system/cpu/cpu" + i + "/cpufreq/cpuinfo_cur_freq"));
+        line = br.readLine();
+        if (line != null) {
+            long frequency = Long.parseLong(line);
+            if (frequency < 0) {
+                temp = "Unknow";
+            } else {
+                temp = frequency+"";
+            }
+        }
+        result.add("cpu" + i + " : " + temp);
+    }	
 ```
 
-```xml
-<!--cpu.xml, this is the layout file, list view is used here.-->
 
+**cpu.xml, this is the layout file, list view is used here.**
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="match_parent"
-	android:orientation="vertical">
-
-	<TextView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:text="CPU FREQUENCY" />
-	<ListView
-		android:id="@+id/listViewCPU"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CPU FREQUENCY" />
+    <ListView
+        android:id="@+id/listViewCPU"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
 ```
+
 ***Note: Follow above structure to add more "data type" to collect should be easy : )***
 
 ## Data storage
@@ -206,96 +205,95 @@ So, It is more general and convenient to use external storage to save data.
 
 Only "START" and "STOP" buttons relate to the storage function.
 
-```java
-// FileCacheUtil.java
 
+**FileCacheUtil.java**
+```java
 /*
 *	this is a tool package for accessing internal storage
 *	how to use:
-*		write:
-* 		FileCacheUtil.getInstance(getApplicationContext()).write("start ");
-* 		read:
-* 		String result = FileCacheUtil.getInstance(getApplicationContext()).read();
+*	    write:
+* 	    FileCacheUtil.getInstance(getApplicationContext()).write("start ");
+* 	    read:
+* 	    String result = FileCacheUtil.getInstance(getApplicationContext()).read();
 *
-*	location: /data/data/com.example.batterymanagercase/files/message.txt
+*  location: /data/data/com.example.batterymanagercase/files/message.txt
 * */
 
 //Singleton Pattern, double-checked locking
 
-	private static FileCacheUtil fileCacheUtil;
-	public static FileCacheUtil getInstance(Context context) {
-		if (fileCacheUtil == null) {
-			synchronized (FileCacheUtil.class) {
-				if (fileCacheUtil == null) {
-					fileCacheUtil = new FileCacheUtil(context);
-				}
-			}
-		}
-		return fileCacheUtil;
-	}
+    private static FileCacheUtil fileCacheUtil;
+    public static FileCacheUtil getInstance(Context context) {
+        if (fileCacheUtil == null) {
+            synchronized (FileCacheUtil.class) {
+                if (fileCacheUtil == null) {
+                    fileCacheUtil = new FileCacheUtil(context);
+                }
+            }
+        }
+        return fileCacheUtil;
+    }
 	
-	...
+    ...
 	
-	//only the write function is needed in this apps
-	public void write(String msg) {
-		if (msg == null) {
-			return;
-		}
-		try {
-			//new data will be appended into "message.txt"
-			FileOutputStream fos = context.openFileOutput(mFileName, MODE_APPEND);
-			fos.write(msg.getBytes());
-			fos.close();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    //only the write function is needed in this apps
+    public void write(String msg) {
+        if (msg == null) {
+            return;
+        }
+        try {
+            //new data will be appended into "message.txt"
+            FileOutputStream fos = context.openFileOutput(mFileName, MODE_APPEND);
+            fos.write(msg.getBytes());
+            fos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 ```
 
+
+**MainActivity.java**
 ```java
-// MainActivity.java
-
-	//when click "START" button, write function will be called.
-	//all data will be grabbed once/second
-	public void write() {
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (true) {
-						if (exit)
-							break;
-						StringBuilder sb = new StringBuilder();
-						Thread.sleep(1000);
-                       
-						sb.append("****\n");
-						sb.append("time: " + Calendar.getInstance().getTime() + "\n");
-
-						//-----cpu freq---------
-						sb.append("cpu freq:\n");
-						List<String> cpuFreq = CPUFreq.getFreq();
-						for (String str : cpuFreq) {
-							sb.append(str + "\n");
-						}
-						
-						...
+    //when click "START" button, write function will be called.
+    //all data will be grabbed once/second
+    public void write() {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        if (exit)
+                            break;
+                        StringBuilder sb = new StringBuilder();
+                        Thread.sleep(1000);
                         
-						//-----Memory -------------
-						sb.append("Memory:\n");
-						List<String> memoryInfo = Memory.getData();
-						for (String str : memoryInfo) {
-							sb.append(str + "\n");
-						}
-						
-						//using the tool package which we implement to access internal storage
-						FileCacheUtil.getInstance(getApplicationContext()).write(sb.toString());
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
-	}
+                        sb.append("****\n");
+                        sb.append("time: " + Calendar.getInstance().getTime() + "\n");
+                        
+                        //-----cpu freq---------
+                        sb.append("cpu freq:\n");
+                        List<String> cpuFreq = CPUFreq.getFreq();
+                        for (String str : cpuFreq) {
+                            sb.append(str + "\n");
+                        }
+                        
+                        ...
+                        //-----Memory -------------
+                        sb.append("Memory:\n");
+                        List<String> memoryInfo = Memory.getData();
+                        for (String str : memoryInfo) {
+                            sb.append(str + "\n");
+                        }
+                        
+                        //using the tool package which we implement to access internal storage
+                        FileCacheUtil.getInstance(getApplicationContext()).write(sb.toString());
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 ```
 ## How to use
 
@@ -321,8 +319,7 @@ Only "START" and "STOP" buttons relate to the storage function.
 <img width="800" height="400" src="res/save_1.png"/>
 </center>
 
-Follow the path to find "message.txt" **/data/data/com.example.batterymanagercase/files/message.txt
-**
+Follow the path to find "message.txt" **/data/data/com.example.batterymanagercase/files/message.txt**
 <center>
 <img width="500" height="400" src="res/save_2.png"/>
 </center>
@@ -332,5 +329,5 @@ Follow the path to find "message.txt" **/data/data/com.example.batterymanagercas
 
 <center>
 <img width="300" height="300" src="res/cat.png"/>
-**Enjoy!**
 </center>
+**Enjoy!**

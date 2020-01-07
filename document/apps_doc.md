@@ -14,7 +14,7 @@ In order to grab the most accurate data from different modules in smartphone, it
 
 But the con is also obvious. It is hard to create general apps which fit all smartphones. In our experiment, we only support Pixel 4, Nexus 5, Nexus 6P and Samsung S10. 
 
-<font color=#204ff7>Note: The apps can only work on Pixel 4 without problem now (Jan 06 2020).</font>
+***Note: The apps can only work on Pixel 4 without problem now (Jan 06 2020).***
 
 ## Structure of Apps
 ### 1. Function
@@ -41,7 +41,7 @@ Source code can be seperated into three parts:
 + data grab and display (from button "CPU FREQUENCY" to "MEMORY", each one has similar logic: activity + function + layout)
 + data storage (FileCacheUtil.java)
 
-<font color=#204ff7>Note: Follow above structure to add more "data type" to collect should be easy : )</font>
+***Note: Follow above structure to add more "data type" to collect should be easy : )***
 
 ## Data Access Permission
 
@@ -90,46 +90,46 @@ From "CPU FREQUENCY" to "MEMORY", every button relates to **activity + function 
 // CPUFreqencyActivity.class
 
 // using handler to update related UI.
-	private Handler handler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			//CPUFreq class is using for grab data from related devices
-			List<String> frequencyList = CPUFreq.getFreq();
-			ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(CPUFreqencyActivity.this, android.R.layout.simple_list_item_1, frequencyList);
-			//in related layout, we use list view structure.
-			listView.setAdapter(arrayAdapter);
-			super.handleMessage(msg);
-		}
-	};
+    private Handler handler = new Handler() {
+        @Override
+            public void handleMessage(Message msg) {
+            //CPUFreq class is using for grab data from related devices
+            List<String> frequencyList = CPUFreq.getFreq();
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(CPUFreqencyActivity.this, android.R.layout.simple_list_item_1, frequencyList);
+            //in related layout, we use list view structure.
+            listView.setAdapter(arrayAdapter);
+            super.handleMessage(msg);
+        }
+    };
 
 ...
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.cpu);
-
-		exit = false;
-		listView = findViewById(R.id.listViewCPU);
-		
-		//update UI once/second
-		new Thread() {
-			@Override
-			public void run() {
-				try {
-					while (true) {
-						if (exit)
-							break;
-						Thread.sleep(1000);
-						Message msg = new Message();
-						handler.sendMessage(msg);
-					}
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-			}
-		}.start();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.cpu);
+        
+        exit = false;
+        listView = findViewById(R.id.listViewCPU);
+        
+        //update UI once/second
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        if (exit)
+                            break;
+                        Thread.sleep(1000);
+                        Message msg = new Message();
+                        handler.sendMessage(msg);
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
+    }
 ``` 
 
 ```java
@@ -189,7 +189,7 @@ From "CPU FREQUENCY" to "MEMORY", every button relates to **activity + function 
 		android:layout_height="match_parent" />
 </LinearLayout>
 ```
-<font color=#204ff7>Note: Follow above structure to add more "data type" to collect should be easy : )</font>
+***Note: Follow above structure to add more "data type" to collect should be easy : )***
 
 ## Data storage
 In Android, data persistence contains internal storage and external storage.
@@ -202,7 +202,7 @@ So, It is more general and convenient to use external storage to save data.
 
 **Internal storage is used in current code(Jan 06 2020).**   
 
-<font color=#204ff7>Note: External storage method will be implemented later.</font>
+***Note: External storage method will be implemented later.***
 
 Only "START" and "STOP" buttons relate to the storage function.
 
@@ -321,8 +321,8 @@ Only "START" and "STOP" buttons relate to the storage function.
 <img width="800" height="400" src="res/save_1.png"/>
 </center>
 
-Follow the path to find "message.txt" <font color=#204ff7>/data/data/com.example.batterymanagercase/files/message.txt</font>
-
+Follow the path to find "message.txt" **/data/data/com.example.batterymanagercase/files/message.txt
+**
 <center>
 <img width="500" height="400" src="res/save_2.png"/>
 </center>
@@ -332,5 +332,5 @@ Follow the path to find "message.txt" <font color=#204ff7>/data/data/com.example
 
 <center>
 <img width="300" height="300" src="res/cat.png"/>
-<font color=#298a13 size=7>Enjoy!</font>
+**Enjoy!**
 </center>

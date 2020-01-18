@@ -11,10 +11,13 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 public class Temperature {
-    protected static List<String> getTemp() {
 
+    public static int size;
+    protected static List<String> getTemp() {
+        size = 0;
         List<String> result = new ArrayList<>();
         BufferedReader br = null;
+        StringBuilder sb = new StringBuilder();
 
         try {
             File dir = new File("/sys/class/thermal");
@@ -29,23 +32,26 @@ public class Temperature {
                 }
             });
 
-            final int SIZE = files.length;
+            size = files.length;
             String type = null;
             String temp = null;
             String path = "/sys/class/thermal/thermal_zone";
-            for (int i = 0; i < SIZE; i++) {
+            for (int i = 0; i < size; i++) {
                 br = new BufferedReader(new FileReader(path + i + "/type"));
                 type = br.readLine();
                 br = new BufferedReader(new FileReader(path + i + "/temp"));
                 temp = br.readLine();
-                result.add(type + "   " + temp);
+                //result.add(type + "   " + temp);
+                sb.append(temp+",");
             }
+            sb.append("\n");
             br.close();
         } catch (FileNotFoundException e) {
             result.add(e.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            result.add(sb.toString());
             if (br != null) {
                 try {
                     br.close();

@@ -9,8 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -144,6 +148,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void write() {
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+
         new Thread() {
             @Override
             public void run() {
@@ -151,67 +157,103 @@ public class MainActivity extends AppCompatActivity {
                     while (true) {
                         if (exit)
                             break;
-                        StringBuilder sb = new StringBuilder();
                         Thread.sleep(1000);
-                        Log.i("@@@@@@@@@@@@@@@@@@", "loop");
-
 
                         //***********************************************
-                        sb.append("****\n");
-                        sb.append("time: " + Calendar.getInstance().getTime() + "\n");
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTime).write(Calendar.getInstance().getTimeInMillis() + "\n", "time.csv");
 
                         //-----cpu freq---------
-                        sb.append("cpu freq:\n");
-                        List<String> cpuFreq = CPUFreq.getFreq();
-                        for (String str : cpuFreq) {
-                            sb.append(str + "\n");
-                        }
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuFreq).write(CPUFreq.getFreq().get(0), "cpuFreq.csv");
 
                         //-----cpu time---------
-                        sb.append("cpu time:\n");
-                        List<String> cpuTime = CPUTime.getCPUTimes();
-                        for (String str : cpuTime) {
-                            sb.append(str + "\n");
-                        }
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuTime).write(CPUTime.getCPUTimes().get(0), "cpuTime.csv");
 
                         //-----battery ---------
-                        sb.append("battery:\n");
-                        List<String> batteryInfo = GetBattery.getParameter();
-                        for (String str : batteryInfo) {
-                            sb.append(str + "\n");
-                        }
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilBattery).write(GetBattery.getParameter().get(0), "battery.csv");
 
                         //-----GPU -------------
-                        sb.append("GPU:\n");
-                        List<String> gpuInfo = GPU.getGPU();
-                        for (String str : gpuInfo) {
-                            sb.append(str + "\n");
-                        }
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilGpu).write(GPU.getGPU().get(0), "gpu.csv");
 
                         //-----net -------------
-                        sb.append("network:\n");
                         long[] speed = NetSpeed.getNetSpeed();
-                        sb.append("Tx:    " + ((float) speed[1]) / 1000 + "\n");
-                        sb.append("Rx:    " + ((float) speed[0]) / 1000 + "\n");
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilNet).write(((float) speed[1]) / 1000 + ",", "net.csv");
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilNet).write(((float) speed[0]) / 1000 + "\n", "net.csv");
 
                         //-----All temperature -------------
-                        sb.append("All temperature:\n");
-                        List<String> allTemp = Temperature.getTemp();
-                        for (String str : allTemp) {
-                            sb.append(str + "\n");
-                        }
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTemp).write(Temperature.getTemp().get(0), "temperature.csv");
 
                         //-----Memory -------------
-                        sb.append("Memory:\n");
-                        List<String> memoryInfo = Memory.getData();
-                        for (String str : memoryInfo) {
-                            sb.append(str + "\n");
+                        List<String> result = Memory.getData();
+                        for(String str : result) {
+                            FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write(str + ",", "memory.csv");
                         }
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write("\n", "memory.csv");
 
-                        FileCacheUtil.getInstance(getApplicationContext()).write(sb.toString());
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+
+                    //add title at the last line of every csv file
+                    String title;
+
+                    //time
+                    FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTime).write("millisecond\n", "time.csv");
+
+                    //cpu frequency
+                    title = "";
+                    for (int i = 0; i < CPUFreq.size; i++) {
+                        title += "cpu" + i + ",";
+                    }
+                    title += "\n";
+                    FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuFreq).write(title, "cpuFreq.csv");
+
+                    //cpu time
+                    title = "";
+                    for (int i = 0; i < CPUTime.size; i++) {
+                        if (i == 0)
+                            title += "cpu,";
+                        else
+                            title += "cpu" + (i - 1) + ",";
+                    }
+                    title += "\n";
+                    FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuTime).write(title, "cpuTime.csv");
+
+                    //battery
+                    title = "voltage_now (mV),temperature (C),capacity (%),current_now (mA)\n";
+                    FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilBattery).write(title, "battery.csv");
+
+
+                    //gpu
+                    title = "usage (%),temperature (C),frequency (Hz)\n";
+                    FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilGpu).write(title, "gpu.csv");
+
+                    //net
+                    title = "TX (KB/s),RX (KB/s)\n";
+                    FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilNet).write(title, "net.csv");
+
+                    //all temperature
+                    title = "";
+                    StringBuilder sb = new StringBuilder();
+                    String path = "/sys/class/thermal/thermal_zone";
+                    BufferedReader br = null;
+                    String type;
+                    try {
+                        for (int i = 0; i < Temperature.size; i++) {
+                            br = new BufferedReader(new FileReader(path + i + "/type"));
+                            type = br.readLine();
+                            sb.append(type+",");
+                        }
+                        sb.append("\n");
+                        br.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }finally{
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTemp).write(sb.toString(), "temperature.csv");
+                    }
+
+                    //memory, looks good. Use python analyze it.
+
                 }
             }
         }.start();

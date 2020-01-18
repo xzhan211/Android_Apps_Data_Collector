@@ -9,45 +9,50 @@ public class GPU {
     public static List<String> getGPU() {
         List<String> result = new ArrayList<>();
         String line;
+        String temp = "";
         try {
             FileReader fr = new FileReader("/sys/class/kgsl/kgsl-3d0/gpu_busy_percentage");
             BufferedReader in = new BufferedReader(fr, 128);
             if ((line = in.readLine()) != null) {
                 line = line.trim();
-                result.add("usage: " + line);
+                //result.add("usage: " + line);
+                temp += line+",";
             }
 
             fr = new FileReader("/sys/class/kgsl/kgsl-3d0/temp");
             in = new BufferedReader(fr, 128);
             if ((line = in.readLine()) != null) {
                 line = line.trim();
-                result.add("temp: " + Float.parseFloat(line) / 1000 + (char) 0x00B0 + "C");
+                //result.add("temp: " + Float.parseFloat(line) / 1000 + (char) 0x00B0 + "C");
+                temp += Float.parseFloat(line) / 1000+",";
             }
 
             fr = new FileReader("/sys/class/kgsl/kgsl-3d0/devfreq/cur_freq");
             in = new BufferedReader(fr, 128);
             if ((line = in.readLine()) != null) {
                 line = line.trim();
-                result.add("freq: " + Long.parseLong(line) + "Hz");
+                //result.add("freq: " + Long.parseLong(line) + "Hz");
+                temp += line+"\n";
             }
 
-            fr = new FileReader("/sys/class/kgsl/kgsl-3d0/devfreq/available_frequencies");
-            in = new BufferedReader(fr, 128);
-            if ((line = in.readLine()) != null) {
-                line = line.trim();
-                result.add("freq option: " + line);
-            }
-
-            fr = new FileReader("/sys/class/kgsl/kgsl-3d0/devfreq/governor");
-            in = new BufferedReader(fr, 128);
-            if ((line = in.readLine()) != null) {
-                line = line.trim();
-                result.add("Current Mode: " + line);
-            }
-
+//            fr = new FileReader("/sys/class/kgsl/kgsl-3d0/devfreq/available_frequencies");
+//            in = new BufferedReader(fr, 128);
+//            if ((line = in.readLine()) != null) {
+//                line = line.trim();
+//                result.add("freq option: " + line);
+//            }
+//
+//            fr = new FileReader("/sys/class/kgsl/kgsl-3d0/devfreq/governor");
+//            in = new BufferedReader(fr, 128);
+//            if ((line = in.readLine()) != null) {
+//                line = line.trim();
+//                result.add("Current Mode: " + line);
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
+        }finally{
+            result.add(temp);
         }
         return result;
     }

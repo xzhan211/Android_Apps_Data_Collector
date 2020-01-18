@@ -14,6 +14,7 @@ class GetBattery {
 
         FileReader fr = null;
         BufferedReader br = null;
+        String temp = "";
         String path = "/sys/class/power_supply/battery/";
         try {
             String text = "";
@@ -21,28 +22,33 @@ class GetBattery {
             fr = new FileReader(path + "voltage_now");
             br = new BufferedReader(fr);
             text = br.readLine();
-            result.add("Voltage:    " + Integer.parseInt(text.trim()) / 1000 + " " + "mV");
+            //result.add("Voltage:    " + Integer.parseInt(text.trim()) / 1000 + " " + "mV");
+            temp += Integer.parseInt(text.trim()) / 1000 + ",";
 
             fr = new FileReader(path + "temp");
             br = new BufferedReader(fr);
             text = br.readLine();
-            result.add("Temperature:    " + Integer.parseInt(text.trim()) / 10 + " " + (char) 0x00B0 + "C");
+            //result.add("Temperature:    " + Integer.parseInt(text.trim()) / 10 + " " + (char) 0x00B0 + "C");
+            temp += Integer.parseInt(text.trim()) / 10 + ",";
 
             fr = new FileReader(path + "capacity");
             br = new BufferedReader(fr);
             text = br.readLine();
-            result.add("Percentage:    " + Integer.parseInt(text.trim()) + " " + "%");
+            //result.add("Percentage:    " + Integer.parseInt(text.trim()) + " " + "%");
+            temp += Integer.parseInt(text.trim()) + ",";
 
             fr = new FileReader(path + "current_now");
             br = new BufferedReader(fr);
             text = br.readLine();
-            result.add("Current:    " + Integer.parseInt(text.trim()) / 1000 + " " + "mA");
+            //result.add("Current:    " + Integer.parseInt(text.trim()) / 1000 + " " + "mA");
+            temp += Integer.parseInt(text.trim()) / 1000 + "\n";
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
+            result.add(temp);
             if (fr != null)
                 try {
                     fr.close();

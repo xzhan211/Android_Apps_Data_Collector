@@ -10,10 +10,13 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 public class CPUFreq {
-    public static List<String> getFreq(){
+
+    public static int size = 0;
+
+    public static List<String> getFreq() {
         List<String> result = new ArrayList<>();
         BufferedReader br = null;
-
+        String temp = "";
         try {
             File dir = new File("/sys/devices/system/cpu/");
 
@@ -27,32 +30,31 @@ public class CPUFreq {
                 }
             });
 
-            final int SIZE = files.length;
-            String line = null;
-            String temp = null;
-            for (int i = 0; i < SIZE; i++) {
+            size = files.length;
 
+            String line = null;
+            for (int i = 0; i < size; i++) {
                 br = new BufferedReader(new FileReader("/sys/devices/system/cpu/cpu" + i + "/cpufreq/cpuinfo_cur_freq"));
                 line = br.readLine();
                 if (line != null) {
                     long frequency = Long.parseLong(line);
                     if (frequency < 0) {
-                        temp = "Unknow";
+                        temp += "Unknow,";
                     } else {
-                        temp = frequency+"";
+                        temp += frequency + ",";
                     }
 
                 }
-
-                result.add("cpu" + i + " : " + temp);
+                //result.add("cpu" + i + " : " + temp);
             }
-
             br.close();
         } catch (FileNotFoundException e) {
             result.add(e.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            temp += "\n";
+            result.add(temp);
             if (br != null) {
                 try {
                     br.close();

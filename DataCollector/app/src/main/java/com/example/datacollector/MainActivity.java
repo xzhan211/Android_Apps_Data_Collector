@@ -1,6 +1,7 @@
 package com.example.datacollector;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static ImageView green;
     private static ImageView red;
 
-    private volatile boolean exit;
-
+    public volatile boolean exit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
             buttonStop.setEnabled(false);
         }
     }
+
 
     public void cpuButton(View view) {
         Intent intent = new Intent(this, CPUFreqencyActivity.class);
@@ -93,6 +94,15 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void startService() {
+        Intent serviceIntent = new Intent(this, ForegroundService.class);
+        serviceIntent.putExtra("inputExtra", "Data Collector is Foreground Service :)");
+        ContextCompat.startForegroundService(this, serviceIntent);
+    }
+    public void stopService() {
+        Intent serviceIntent = new Intent(this, ForegroundService.class);
+        stopService(serviceIntent);
+    }
 
     public void startButton(View view) {
         isStart = true;
@@ -108,7 +118,9 @@ public class MainActivity extends AppCompatActivity {
 
         setButton(false);
         exit = false;
-        write();
+        startService();
+
+        writeDataToInternalStorage();
     }
 
 
@@ -126,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
 
         setButton(true);
         exit = true;
+        stopService();
     }
 
     private void setButton(boolean value) {
@@ -146,7 +159,9 @@ public class MainActivity extends AppCompatActivity {
         buttonMemory.setEnabled(value);
     }
 
-    public void write() {
+
+
+    public void writeDataToInternalStorage() {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
 
@@ -184,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
 
                         //-----Memory -------------
                         List<String> result = Memory.getData();
-                        for(String str : result) {
+                        for (String str : result) {
                             FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write(str + ",", "memory.csv");
                         }
                         FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write("\n", "memory.csv");
@@ -242,13 +257,13 @@ public class MainActivity extends AppCompatActivity {
                         for (int i = 0; i < Temperature.size; i++) {
                             br = new BufferedReader(new FileReader(path + i + "/type"));
                             type = br.readLine();
-                            sb.append(type+",");
+                            sb.append(type + ",");
                         }
                         sb.append("\n");
                         br.close();
                     } catch (Exception e) {
                         e.printStackTrace();
-                    }finally{
+                    } finally {
                         FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTemp).write(sb.toString(), "temperature.csv");
                     }
 

@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
         android:allowBackup="true"
@@ -14,6 +15,12 @@
         android:supportsRtl="true"
         android:sharedUserId="android.ui.system"
         android:theme="@style/AppTheme">
+
+        <service
+            android:name=".ForegroundService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity android:name="com.example.datacollector.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

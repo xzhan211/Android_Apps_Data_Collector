@@ -1,5 +1,6 @@
 package com.example.datacollector;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +9,7 @@ import android.widget.ListView;
 
 import java.util.List;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class CPUFreqencyActivity extends AppCompatActivity {
@@ -16,7 +18,8 @@ public class CPUFreqencyActivity extends AppCompatActivity {
     private volatile boolean exit;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.cpu);
 

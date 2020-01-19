@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.datacollector">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
 
     <application
@@ -14,86 +13,73 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:sharedUserId="android.ui.system"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:persistent="true"
+        tools:ignore="GoogleAppIndexingWarning">
 
         <service
             android:name=".ForegroundService"
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name="com.example.datacollector.MainActivity"
-            android:configChanges="orientation|screenSize">
+        <activity
+            android:name="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:launchMode="standard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.datacollector.CPUFreqencyActivity"
+        <activity
+            android:name="com.example.datacollector.CPUFreqencyActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
-        <activity android:name="com.example.datacollector.CPUTimeActivity"
+        <activity
+            android:name="com.example.datacollector.CPUTimeActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
 
-        <activity android:name="com.example.datacollector.BatteryMessageActivity"
+        <activity
+            android:name="com.example.datacollector.BatteryMessageActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
-        <activity android:name="com.example.datacollector.GPUMessageActivity"
+        <activity
+            android:name="com.example.datacollector.GPUMessageActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
-        <activity android:name="com.example.datacollector.NetMessageActivity"
+        <activity
+            android:name="com.example.datacollector.NetMessageActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
-        <activity android:name="com.example.datacollector.TempMessageActivity"
+        <activity
+            android:name="com.example.datacollector.TempMessageActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
-        <activity android:name="com.example.datacollector.MemoryMessageActivity"
+        <activity
+            android:name="com.example.datacollector.MemoryMessageActivity"
             android:parentActivityName="com.example.datacollector.MainActivity"
             android:configChanges="orientation|screenSize">
-            <!-- The meta-data tag is required if you support API level 15 and lower -->
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.datacollector.MainActivity" />
         </activity>
 
+        <activity
+            android:name="com.example.datacollector.DataStorageActivity"
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
+        </activity>
 
     </application>
 

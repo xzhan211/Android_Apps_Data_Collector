@@ -8,6 +8,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.Build;
 import android.os.IBinder;
+import android.util.Log;
 
 public class ForegroundService extends Service {
     public static final String CHANNEL_ID = "ForegroundServiceChannel";
@@ -15,6 +16,7 @@ public class ForegroundService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i("@@@@>> ", "onCreate() in service");
     }
 
     @Override
@@ -22,6 +24,11 @@ public class ForegroundService extends Service {
         String input = intent.getStringExtra("inputExtra");
         createNotificationChannel();
         Intent notificationIntent = new Intent(this, MainActivity.class);
+        //set startup mode, when click notification icon, jump to target activity without reload the apps
+        notificationIntent.setAction(Intent.ACTION_MAIN);
+        notificationIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this,
                 0, notificationIntent, 0);
         Notification notification = new Notification.Builder(this, CHANNEL_ID)

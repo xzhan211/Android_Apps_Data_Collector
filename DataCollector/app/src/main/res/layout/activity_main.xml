@@ -69,51 +69,58 @@
             android:text="MEMORY" />
 
         <Button
-            android:id="@+id/startUpdate"
+            android:id="@+id/dataStorage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="startButton"
-            android:text="START"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:onClick="dataStorageButton"
+            android:text="DATA STORAGE" />
 
-        <Button
-            android:id="@+id/stopUpdate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="stopButton"
-            android:text="STOP" />
+<!--        <Button-->
+<!--            android:id="@+id/startUpdate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="startButton"-->
+<!--            android:text="START"-->
+<!--            app:layout_constraintEnd_toEndOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent" />-->
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<!--        <Button-->
+<!--            android:id="@+id/stopUpdate"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:onClick="stopButton"-->
+<!--            android:text="STOP" />-->
 
-            <ImageView
-                android:id="@+id/greenImage"
-                android:layout_width="102dp"
-                android:layout_height="111dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/green" />
+<!--        <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent">-->
 
-            <ImageView
-                android:id="@+id/redImage"
-                android:layout_width="102dp"
-                android:layout_height="109dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginLeft="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_weight="1"
-                android:visibility="gone"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/red" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            <ImageView-->
+<!--                android:id="@+id/greenImage"-->
+<!--                android:layout_width="102dp"-->
+<!--                android:layout_height="111dp"-->
+<!--                android:layout_marginStart="32dp"-->
+<!--                android:layout_marginLeft="32dp"-->
+<!--                android:layout_marginTop="32dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:visibility="gone"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:srcCompat="@drawable/green" />-->
+
+<!--            <ImageView-->
+<!--                android:id="@+id/redImage"-->
+<!--                android:layout_width="102dp"-->
+<!--                android:layout_height="109dp"-->
+<!--                android:layout_marginStart="32dp"-->
+<!--                android:layout_marginLeft="32dp"-->
+<!--                android:layout_marginTop="32dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:visibility="gone"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent"-->
+<!--                app:srcCompat="@drawable/red" />-->
+<!--        </androidx.constraintlayout.widget.ConstraintLayout>-->
 
     </LinearLayout>
 

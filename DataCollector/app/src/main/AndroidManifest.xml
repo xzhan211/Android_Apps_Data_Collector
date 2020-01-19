@@ -21,7 +21,8 @@
             android:enabled="true"
             android:exported="true"></service>
 
-        <activity android:name="com.example.datacollector.MainActivity">
+        <activity android:name="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -30,7 +31,8 @@
         </activity>
 
         <activity android:name="com.example.datacollector.CPUFreqencyActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -38,7 +40,8 @@
         </activity>
 
         <activity android:name="com.example.datacollector.CPUTimeActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -47,7 +50,8 @@
 
 
         <activity android:name="com.example.datacollector.BatteryMessageActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -55,7 +59,8 @@
         </activity>
 
         <activity android:name="com.example.datacollector.GPUMessageActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -63,7 +68,8 @@
         </activity>
 
         <activity android:name="com.example.datacollector.NetMessageActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -71,7 +77,8 @@
         </activity>
 
         <activity android:name="com.example.datacollector.TempMessageActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -79,7 +86,8 @@
         </activity>
 
         <activity android:name="com.example.datacollector.MemoryMessageActivity"
-            android:parentActivityName="com.example.datacollector.MainActivity">
+            android:parentActivityName="com.example.datacollector.MainActivity"
+            android:configChanges="orientation|screenSize">
             <!-- The meta-data tag is required if you support API level 15 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

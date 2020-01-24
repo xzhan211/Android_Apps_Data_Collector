@@ -9,17 +9,24 @@ import java.util.Map;
 class Memory {
     public static List<String> getData() {
         List<String> result = new ArrayList<>();
-        result.add("Thread quantity:    " + printThreadSize());
+        StringBuilder sb = new StringBuilder();
+//        result.add("Thread quantity:    " + printThreadSize());
+        sb.append("Thread quantity:    " + printThreadSize() + ",");
         String line;
         try {
             FileReader fr = new FileReader("/proc/meminfo");
             BufferedReader in = new BufferedReader(fr, 2048);
             while ((line = in.readLine()) != null) {
                 line = line.trim();
-                result.add(line);
+//                result.add(line);
+                sb.append(line + ",");
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append("\n");
+            result.add(sb.toString());
         }
         return result;
     }

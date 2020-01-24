@@ -45,9 +45,9 @@ public class DataStorageActivity extends AppCompatActivity {
     public void writeDataToInternalStorage() {
 
 
-
         new Thread() {
             SimpleDateFormat sdf = new SimpleDateFormat("HHmmss", Locale.getDefault());
+
             @Override
             public void run() {
                 try {
@@ -82,12 +82,7 @@ public class DataStorageActivity extends AppCompatActivity {
                         FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTemp).write(Temperature.getTemp().get(0), "temperature.csv");
 
                         //-----Memory -------------
-                        List<String> result = Memory.getData();
-                        for (String str : result) {
-                            FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write(str + ",", "memory.csv");
-                        }
-                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write("\n", "memory.csv");
-
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilMemory).write(Memory.getData().get(0), "memory.csv");
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -103,7 +98,7 @@ public class DataStorageActivity extends AppCompatActivity {
                     title = "";
                     int last = CPUFreq.size - 1;
                     for (int i = 0; i < CPUFreq.size; i++) {
-                        if(i == last)
+                        if (i == last)
                             title += "cpu" + i + "\n";
                         else
                             title += "cpu" + i + ",";
@@ -119,7 +114,7 @@ public class DataStorageActivity extends AppCompatActivity {
                         if (i == 0)
                             title += "cpu,";
                         else {
-                            if(i == last)
+                            if (i == last)
                                 title += "cpu" + (i - 1) + "\n";
                             else
                                 title += "cpu" + (i - 1) + ",";

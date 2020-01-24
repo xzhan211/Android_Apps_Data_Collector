@@ -42,15 +42,16 @@ public class Temperature {
                 br = new BufferedReader(new FileReader(path + i + "/temp"));
                 temp = br.readLine();
                 //result.add(type + "   " + temp);
-                sb.append(temp+",");
+                sb.append(temp + ",");
             }
-            sb.append("\n");
             br.close();
         } catch (FileNotFoundException e) {
             result.add(e.toString());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append("\n");
             result.add(sb.toString());
             if (br != null) {
                 try {

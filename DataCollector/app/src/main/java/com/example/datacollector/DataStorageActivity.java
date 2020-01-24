@@ -148,15 +148,17 @@ public class DataStorageActivity extends AppCompatActivity {
                             type = br.readLine();
                             sb.append(type + ",");
                         }
-                        sb.append("\n");
                         br.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     } finally {
+                        sb.deleteCharAt(sb.length()-1);
+                        sb.append("\n");
                         FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTemp).write(sb.toString(), "temperature.csv");
                     }
 
                     //memory, looks good. Use python analyze it.
+
 
                 }
             }

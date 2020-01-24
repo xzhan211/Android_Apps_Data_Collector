@@ -11,10 +11,19 @@ public class GPU {
         String line;
         String temp = "";
         try {
-            FileReader fr = new FileReader("/sys/class/kgsl/kgsl-3d0/gpu_busy_percentage");
+//            FileReader fr = new FileReader("/sys/class/kgsl/kgsl-3d0/gpu_busy_percentage");
+            FileReader fr = new FileReader("/sys/class/kgsl/kgsl-3d0/gpubusy");
             BufferedReader in = new BufferedReader(fr, 128);
             if ((line = in.readLine()) != null) {
                 line = line.trim();
+                String[] arr = line.split("\\s+");
+                long molecular = Long.valueOf(arr[0]);
+                long denominator = Long.valueOf(arr[1]);
+                if(denominator != 0)
+                    line = ""+(molecular*100)/denominator;
+                else
+                    line = "0";
+
                 //result.add("usage: " + line);
                 temp += line+",";
             }

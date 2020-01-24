@@ -16,7 +16,8 @@ public class CPUFreq {
     public static List<String> getFreq() {
         List<String> result = new ArrayList<>();
         BufferedReader br = null;
-        String temp = "";
+        //String temp = "";
+        StringBuilder temp = new StringBuilder();
         try {
             File dir = new File("/sys/devices/system/cpu/");
 
@@ -39,9 +40,9 @@ public class CPUFreq {
                 if (line != null) {
                     long frequency = Long.parseLong(line);
                     if (frequency < 0) {
-                        temp += "Unknow,";
+                        temp.append("Unknow,");
                     } else {
-                        temp += frequency + ",";
+                        temp.append(frequency + ",");
                     }
 
                 }
@@ -53,8 +54,9 @@ public class CPUFreq {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            temp += "\n";
-            result.add(temp);
+            temp.deleteCharAt(temp.length()-1);
+            temp.append("\n");
+            result.add(temp.toString());
             if (br != null) {
                 try {
                     br.close();

@@ -27,6 +27,7 @@ public class CPUTime {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            temp.deleteCharAt(temp.length()-1);
             temp.append("\n");
             result.add(temp.toString());
         }

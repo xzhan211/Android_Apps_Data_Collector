@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -43,9 +44,10 @@ public class DataStorageActivity extends AppCompatActivity {
 
     public void writeDataToInternalStorage() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault());
+
 
         new Thread() {
+            SimpleDateFormat sdf = new SimpleDateFormat("HHmmss", Locale.getDefault());
             @Override
             public void run() {
                 try {
@@ -55,7 +57,9 @@ public class DataStorageActivity extends AppCompatActivity {
                         Thread.sleep(1000);
 
                         //***********************************************
-                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTime).write(Calendar.getInstance().getTimeInMillis() + "\n", "time.csv");
+//                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTime).write(Calendar.getInstance().getTimeInMillis() + "\n", "time.csv");
+//                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTime).write(Calendar.getInstance().getTime() + "\n", "time.csv");
+                        FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilTime).write(sdf.format(new Date()) + "\n", "time.csv");
 
                         //-----cpu freq---------
                         FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuFreq).write(CPUFreq.getFreq().get(0), "cpuFreq.csv");
@@ -97,19 +101,29 @@ public class DataStorageActivity extends AppCompatActivity {
 
                     //cpu frequency
                     title = "";
+                    int last = CPUFreq.size - 1;
                     for (int i = 0; i < CPUFreq.size; i++) {
-                        title += "cpu" + i + ",";
+                        if(i == last)
+                            title += "cpu" + i + "\n";
+                        else
+                            title += "cpu" + i + ",";
+
                     }
                     title += "\n";
                     FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuFreq).write(title, "cpuFreq.csv");
 
                     //cpu time
                     title = "";
+                    last = CPUTime.size - 1;
                     for (int i = 0; i < CPUTime.size; i++) {
                         if (i == 0)
                             title += "cpu,";
-                        else
-                            title += "cpu" + (i - 1) + ",";
+                        else {
+                            if(i == last)
+                                title += "cpu" + (i - 1) + "\n";
+                            else
+                                title += "cpu" + (i - 1) + ",";
+                        }
                     }
                     title += "\n";
                     FileCacheUtil.getInstance(getApplicationContext(), FileCacheUtil.fileCacheUtilCpuTime).write(title, "cpuTime.csv");
